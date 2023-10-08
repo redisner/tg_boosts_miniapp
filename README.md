@@ -1,1 +1,1 @@
-#  Telegram P2P Boosts Mini App
+#  Telegram P2P + TOP Boosts Mini App

@@ -1,0 +1,7 @@
+APScheduler==3.10.4
+Flask==3.0.0
+psycopg2-binary==2.9.9
+Pyrogram @ https://github.com/KurimuzonAkuma/pyrogram/archive/dev.zip
+python-dotenv==1.0.0
+SQLAlchemy==2.0.21
+TgCrypto==1.2.5
