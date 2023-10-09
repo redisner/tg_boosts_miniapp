@@ -1,0 +1,1 @@
+# Boosteam Documentation Type Thing
