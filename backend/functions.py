@@ -31,24 +31,34 @@ async def check_channel(channel_username: str | None = None,
             if chat_id is not None:
                 channel = await app.resolve_peer(int(str(chat_id)[4:]))
             elif channel_username is not None:
-                results = (await app.invoke(Search(q=f"@{channel_username}", limit=1))).chats
-                channel = None
-                for result in results:
-                    if isinstance(result, raw.types.Channel):
-                        if any(username == channel_username for username in result.usernames) or result.username == channel_username:
-                            channel = result
+                try:
+                    channel = await app.resolve_peer(channel_username)
+                except:
+                    results = (await app.invoke(Search(q=f"@{channel_username}", limit=1))).chats
+                    channel = None
+                    for result in results:
+                        if isinstance(result, raw.types.Channel):
+                            if any(username == channel_username for username in result.usernames) or result.username == channel_username:
+                                channel = result
 
             if isinstance(channel, raw.types.input_peer_channel.InputPeerChannel | raw.types.Channel):
+                if isinstance(channel, raw.types.input_peer_channel.InputPeerChannel):
+                    c_id = channel.channel_id
+                    c_username = channel_username
+                else:
+                    c_id = channel.id
+                    c_username = channel.username or channel.usernames[0]
+
                 result = props(await app.invoke(
                     GetBoostsStatus(
-                        peer=InputPeerChannel(channel_id=channel.id,
+                        peer=InputPeerChannel(channel_id=c_id,
                                               access_hash=channel.access_hash))
                 ))
 
                 response = {
                     "status": "success",
-                    "username": channel.username or channel.usernames[0],
-                    "chat_id": channel.id,
+                    "username": c_username,
+                    "chat_id": c_id,
                     "level": result["level"],
                     "boosts": result["boosts"],
                     "boost_url": result["boost_url"],

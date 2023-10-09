@@ -1,10 +1,9 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boosteam App</title>
-    <script src="https://tg.dev/js/telegram-web-app.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"/>
 </head>
 <body>
 <div class="container">
@@ -12,9 +11,15 @@
         <span id="title">Boosteam Assets</span>
         <div style="display: flex; align-items: center;">
             <span id="balance">0</span>
-            <span id="currency-symbol">$</span>
+            <span id="currency-symbol" style="margin-top: 6px;">
+                    <svg width="20" height="19" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24.5603 0.627686H5.43859C1.92279 0.627686 -0.305616 4.42018 1.46318 7.48608L13.2644 27.9409C14.0345 29.2765 15.9644 29.2765 16.7345 27.9409L28.5381 7.48608C30.3045 4.42508 28.0761 0.627686 24.5627 0.627686H24.5603ZM13.2548 21.8068L10.6847 16.8327L4.48328 5.74139C4.07418 5.03149 4.57948 4.12179 5.43618 4.12179H13.2524V21.8092L13.2548 21.8068ZM25.5108 5.73899L19.3118 16.8351L16.7417 21.8068V4.11939H24.5579C25.4146 4.11939 25.9199 5.02909 25.5108 5.73899Z"
+                          fill="#999"/>
+                    </svg>
+                </span>
             <button id="top-up-button" class="disabled" data-tooltip="Not available yet!">+</button>
         </div>
+
     </div>
 
     <div id="action-buttons">
@@ -30,13 +35,45 @@
     </div>
 
 
-    <!-- Ranked List -->
-    <div id="ranked-list">
+    <div id="search-container">
+        <input type="text" id="search-bar" placeholder="Search...">
     </div>
 
 
+    <div id="list-wrapper">
+        <div id="header-container">
+            <span>TOP CHANNELS SORTED BY:</span>
+            <div class="toggle-container">
+            <span class="lightning">
+                <img src="{{ url_for('static', filename='light.svg') }}" alt="lightning">
+            </span>
+                <div class="slider">
+                    <div class="circle" style="left: 1%;"></div>
+                </div>
+                <span>LVL</span>
+            </div>
+
+
+        </div>
+
+
+        <!-- Ranked List -->
+        <div id="ranked-list">
+        </div>
+    </div>
+
+    <!-- Pagination Section -->
+    <div id="pagination">
+        <button class="page-button" id="prev-page" disabled>Previous</button>
+        <span id="page-info">Page <span id="current-page">1</span> of <span id="total-pages">10</span></span>
+        <button class="page-button" id="next-page">Next</button>
+    </div>
+
+    <div id="footer-text" onclick="footerClicked()">by Boosteam</div>
 </div>
-
-
 </body>
 </html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
