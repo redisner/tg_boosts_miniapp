@@ -1,21 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 body {
-    color: var(--tg-theme-text-color);
-    background: var(--tg-theme-bg-color);
-    /*display: flex;*/
-    flex-direction: column;
-    align-items: center;
-    font-size: 18px;
+    overflow-x: hidden;
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    user-select: none; /* Standard syntax */
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
+    background: linear-gradient(45deg, #e5e5e5, #f5f5f5);
+    font-size: calc(1em + 0.5vw);
 }
 
 .container {
+    overflow-x: hidden;
     max-width: 400px;
-    margin: 50px auto;
-    padding: 30px 20px;
+    width: 90%;
+    margin: 2em auto;
+    padding: 2em 1em;
 }
 
 #top-frame {
@@ -71,27 +74,26 @@ body {
 
 #action-buttons button {
     flex: 1;
-    margin: 0 5px;
-    font-size: 16px;
+    margin: calc(0em + 0.5vw) calc(0.3125em + 0.5vw);
+    font-size: calc(0.5em + 0.7vw);
     cursor: pointer;
-    padding: 10px;
+    padding: calc(0.625em + 0.5vw);
     background: #D7D8F6; /* Updated background color */
     color: #3E2C8F;
     border: none;
-    border-radius: 10px;
+    border-radius: calc(1em + 0.2vw);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    height: 80px;
+    height: calc(5em + 1vw);
     font-weight: bold; /* Made the text bold */
 }
 
-#action-buttons button img {
-    width: 50px; /* Adjusted icon size */
-    height: 50px; /* Adjusted icon size */
-    margin-bottom: 8px;
+#action-buttons button img, .lightning img, .ranked-item img {
+    width: 10vw;
+    height: 10vw;
 }
 
 #action-buttons button:active {
@@ -140,7 +142,7 @@ body {
 #top-up-button.disabled:hover:after {
     content: attr(data-tooltip); /* Gets tooltip text from data attribute */
     position: absolute;
-    bottom: 100%; /* Position above the button */
+    top: 100%; /* Position above the button */
     left: 50%; /* Centered horizontally */
     transform: translateX(-50%); /* Center adjustment */
     background-color: #333; /* Tooltip background color */
@@ -164,10 +166,191 @@ body {
     text-align: center;
 }
 
+/* Search Bar Styling */
+#search-container {
+    margin-top: 0px;
+    margin-bottom: 0.5em;
+    display: flex;
+    justify-content: center;
+    height: calc(1.5em + 1vw);
+}
+
+#search-bar {
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 3px solid #D7D8F6;
+    font-size: 16px;
+    opacity: 0.6;
+    color: light grey;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#search-bar:focus {
+    border-color: #3E2C8F;
+    outline: none;
+}
+
+
+#header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #EAEAFD; /* You can adjust this to match the design color scheme */
+    padding: calc(0.625em + 0.5vw) calc(1.25em + 1vw);
+    font-size: calc(0.5em + 0.5vw);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-bottom: 0; /* Removing margin to attach to the ranked list */
+}
+
+/* Heading */
+#ranked-list-heading {
+    background-color: #EAEAFD;
+    border-radius: 15px 15px 0 0; /* rounded top corners */
+    font-family: 'Inter', sans-serif;
+    font-weight: 900; /* adjust as needed */
+}
+
+/* First ranked item */
+.ranked-item:first-child {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* Last ranked item */
+.ranked-item:last-child {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+
+.toggle-container {
+    user-select: none; /* standard syntax */
+    webkit-user-select: none; /* Safari and Chrome */
+    moz-user-select: none; /* Firefox */
+    ms-user-select: none; /* IE 10+ */
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 70px; /* reduced size */
+    height: 25px; /* reduced size */
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+.slider {
+    display: flex;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px; /* added padding */
+}
+
+
+.circle {
+    background-color: white;
+    border: 1px solid lightgray;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 1%; /* adjusted position */
+    transform: translateY(-50%);
+    width: 23px; /* adjusted size */
+    height: 23px; /* adjusted size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.15s;
+    z-index: 0;
+}
+
+
+.toggle-container span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(65, 46, 136, 0.4);
+    width: 50%;
+    text-align: center;
+    font-size: 1rem;
+    transition: opacity 0.15s;
+    z-index: 2;
+}
+
+
+.toggle-container.active .slider {
+    background-color: white;
+}
+
+
+.lightning {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+}
+
+.lightning img {
+    margin-left: 4.5px;
+    width: 16px; /* Adjust based on your preference */
+    height: 16px; /* Adjust based on your preference */
+}
+
+
+/* For the non-active state (circle on the left) */
+.toggle-container:not(.active) span:first-child {
+    opacity: 1;
+    color: black;
+    filter: none;
+}
+
+/* For the non-active state (circle on the left) */
+.toggle-container:not(.active) span:last-child {
+    opacity: 0.6;
+    color: light grey;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-top: 0px; /* Adjust vertical position */
+    margin-right: 0.7px; /* Adjust vertical position */
+    transform: scaleX(0.9);
+}
+
+/* For the active state (circle on the right) */
+.toggle-container.active span:first-child {
+    opacity: 0.6;
+    color: light grey;
+}
+
+/* For the active state (circle on the right) */
+.toggle-container.active span:last-child {
+    opacity: 1;
+    color: black;
+    font-weight: 900;
+    font-size: 0.8rem;
+    margin-top: 0px; /* Adjust vertical position */
+    margin-right: 0.7px; /* Adjust vertical position */
+    transform: scaleX(0.9);
+}
+
+
+#list-wrapper {
+    background-color: #EAEAFD;
+    border-radius: 10px;
+}
+
 
 /* Ranked List Styles */
 #ranked-list {
-    margin-top: 30px;
+    margin-top: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -177,10 +360,15 @@ body {
     justify-content: space-between;
     align-items: center;
     background: #FFFFFF;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-bottom: 1px solid #f0f0f0;
     transition: 0.3s background-color;
     cursor: pointer;
+}
+
+#ranked-list-container {
+    background-color: #EAEAFD;
+    padding: 10px 0; /* Vertical padding to give some space above and below the ranked items */
 }
 
 .ranked-item:hover {
@@ -199,28 +387,29 @@ body {
 .rank-number {
     color: darkgray;
     margin-right: 10px;
+    font-size: calc(0.5em + 1vw); /* Dynamically resizable text */
 }
 
 .ranked-item img {
-    width: 40px;
-    height: 40px;
+    width: calc(1em + 4vw); /* Dynamically resizable width */
+    height: calc(1em + 4vw); /* Dynamically resizable height */
     margin-right: 15px;
     border-radius: 50%;
     object-fit: cover;
 }
 
 .channel-name {
-    font-size: 16px;
+    font-size: calc(0.3em + 1.3vw); /* Dynamically resizable text */
     flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 180px;
+    max-width: calc(11em + 0.1vw); /* Dynamically resizable max-width */
     color: #000;
 }
 
 .boost-info {
-    font-size: 14px;
+    font-size: calc(0.4em + 0.6vw); /* Dynamically resizable text */
     color: #999;
     margin-top: 4px; /* spacing between channel name and boost info */
 }
@@ -234,7 +423,7 @@ body {
 
 /* Button Styling */
 .gift-boost-btn {
-    padding: 8px 15px;
+    padding: calc(0.5em + 0.5vw) calc(0.9375em + 0.5vw);
     background: linear-gradient(85deg, #12c2e9, #2575fc);
     border: none;
     border-radius: 5px;
@@ -242,7 +431,8 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    width: 100px;
+    width: calc(6.25em + 0.5vw);
+    font-size: calc(0.2em + 1vw);
 }
 
 .gift-boost-btn:hover {
@@ -253,59 +443,66 @@ body {
     transform: scale(0.95);
 }
 
-.promo-item {
-    border-radius: 10px; /* Rounded edges */
-    transition: 0.3s background-color; /* Smooth background-color transition */
-    cursor: pointer; /* Makes it look clickable */
-}
-
-.promo-item:hover {
-    background-color: #EAEAFD; /* Lighter shade on hover */
-}
-
-.promo-item a {
+/* Pagination Styles */
+#pagination {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%; /* Ensures the anchor tag takes the full width */
-    text-decoration: none; /* Removes the underline */
-    color: inherit; /* Inherits the font color */
+    margin-top: 20px;
+    padding: 10px;
 }
 
-.promo-item span:nth-child(2) {
-    font-family: 'Arial', sans-serif; /* Different font */
-    font-weight: 400; /* Thinner font */
-    font-size: 14px; /* Slightly smaller font size */
-    text-align: right; /* Right aligns the payment rate */
-    flex: 0 0 60px; /* Fixed width for payment rate, preventing overlap */
-    margin-left: 10px; /* Some space between the name and the rate */
+.page-button {
+    background-color: #D7D8F6;
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    color: #3E2C8F;
+    border: none;
+    padding: calc(0.625em + 0.5vw); /* Scalable padding */
+    border-radius: calc(0.6em + 0.2vw); /* Scalable border-radius */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: calc(0.5em + 0.7vw); /* Scalable font size */
+    width: calc(6em + 1vw); /* Scalable width */
+    height: calc(2em + 1vw); /* Scalable height */
 }
 
 
-/* Promo text enhancement */
-.promo-item span {
-    font-size: 16px;
-    background: linear-gradient(45deg, #2575fc, #9c27b0);
-    -webkit-background-clip: text;
-    color: transparent;
+.page-button:hover {
+    background-color: #C0C1F4;
 }
 
-.promo-item span:nth-child(2) {
-    color: #999;
-    font-weight: bold;
+.page-button:disabled {
+    background-color: #EAEAFD;
+    cursor: not-allowed;
 }
 
-/* Promo image enhancement */
-.promo-item img {
-    width: 40px;
-    height: 40px;
-    margin-right: 15px;
-    border-radius: 50%; /* Makes the image circular */
-    object-fit: cover; /* Ensures the image is cropped correctly */
-    vertical-align: middle; /* Aligns the image with the text */
+.page-button:active {
+    transform: translateY(2px); /* This moves the button slightly downwards */
+    opacity: 0.7; /* This makes the button slightly transparent */
 }
 
-a:hover, a:visited, a:link, a:active
-{
+#page-info {
+    font-size: calc(0.5em + 0.5vw); /* Scalable font size */
+    color: black; /* Your desired color */
+}
+
+
+#footer-text {
+    margin-top: 60px;
+    text-align: center; /* Centering text */
     text-decoration: none;
+    cursor: pointer;
+    opacity: 0.2;
+    color: light grey;
+    transition: color 0.3s, opacity 0.3s; /* Smooth transition */
 }
+
+
+@media (max-width: 768px) {
+    body {
+        font-size: calc(1em + 1vw);
+    }
+}
+    
