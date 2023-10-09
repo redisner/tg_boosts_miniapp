@@ -1,7 +1,7 @@
 import asyncio
 
-from sql_utils import get, Channel, add, Boost
-from functions import check_channel
+from backend.sql_utils import get, Channel, add, Boost
+from backend.functions import check_channel
 
 
 def periodic_check():

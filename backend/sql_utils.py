@@ -1,8 +1,9 @@
 from typing import List, Dict
 
-from sqlalchemy import create_engine, select, insert, func, Text, BigInteger, DateTime, ForeignKey
+from sqlalchemy import create_engine, select, insert, func, Text, BigInteger, DateTime, ForeignKey, text
 from sqlalchemy.orm import Session, DeclarativeBase, mapped_column, relationship
-from config import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+from backend.config import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+from backend.functions import props
 
 engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
                        pool_size=20, max_overflow=-1)
@@ -43,6 +44,16 @@ async def add(model, params: List[Dict]):
     )
 
     session.commit()
+
+
+async def custom_query(query):
+    session = Session(engine)
+
+    text_query = text(query)
+
+    result = session.execute(text_query)
+
+    return result.scalars()
 
 
 async def get(model, param: str | None, value: int | str | None):
