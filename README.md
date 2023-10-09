@@ -33,14 +33,14 @@ Currently we have a list of top channels ranked by levels and amount of boosts b
 - CSS and image files for icons
 - An HTML template
 
-# APP.PY
+### APP.PY
 this is a Flask web server that uses backend folder functions. Every hour all channels and their boost numbers as well as level are fetched.
 
-# FUNCTIONS.PY
+### FUNCTIONS.PY
 this file contains functions that checks channel by username or chat_id. this includes all the necessary info for ranking.
 
-# BG_TASKS.PY
+### BG_TASKS.PY
 this file contains frequency of updates
 
-# SQL_UTILS.PY
+### SQL_UTILS.PY
 this python file manages all the database stuff. It operates data using PostgreSQL.
