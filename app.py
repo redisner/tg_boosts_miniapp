@@ -77,9 +77,37 @@ async def check_boosts_endpoint():
 
 @app.route("/get_ranking")
 async def get_ranking_endpoint():
-    boosts = await custom_query("""select (row_number() over (), a.*) from (select c.username, max(b.boosts_count) as boosts_cnt, b.level, b.check_time
-from boosts b join channels c on c.id = b.channel_id
-group by c.username, b.check_time, b.level order by boosts_cnt desc limit 10) a""")
+    sorted_by = request.args.get("sorted_by")
+    page = request.args.get("page")
+    search = request.args.get("search")
+
+    if not search:
+        search = ""
+
+    offset = 0
+
+    if page and all(x.isdigit() for x in page):
+        offset = 10 * (int(page) - 1)
+
+    if not sorted_by:
+        sorted_by = "boosts_count"
+
+    boosts = await custom_query("""WITH LatestBoosts AS (
+    SELECT channel_id,
+           boosts_count,
+           level,
+           ROW_NUMBER() OVER (PARTITION BY channel_id ORDER BY check_time DESC) AS rn
+    FROM boosts
+),
+PRE_RANK AS (SELECT RANK() OVER (ORDER BY b.{0} DESC) AS overall_rank, c.username, b.boosts_count, b.level
+FROM channels c
+JOIN LatestBoosts b
+ON c.id = b.channel_id
+WHERE b.rn = 1)
+SELECT (overall_rank, username, boosts_count, level)
+FROM PRE_RANK
+WHERE username LIKE '%{1}%'
+LIMIT 10 OFFSET {2}""".format(sorted_by, search, offset))
 
     result = []
 
