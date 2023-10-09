@@ -10,6 +10,9 @@ Likewise, Boosteam is a market you can employ Boosters on to elevate your channe
 At Boosteam, we value boosts above subscriber count — thus, provide you with a Global Ranking based on this new metric.
 
 
+![image](https://github.com/redisner/tg_boosts_miniapp/assets/128181486/ecb88353-8fa1-494f-8f39-1c3b3a8a42b2)
+
+
 ## Project Links:
 - Telegram Mini App: [@boosteambot](https://t.me/boosteambot)
 - Boosteam Channel: [@boosteamchannel](https://t.me/boosteamchannel)
@@ -21,6 +24,9 @@ At Boosteam, we value boosts above subscriber count — thus, provide you with a
 - Check how many boosts or what level does a channel have, compare it with other channels with our ranking system
 
 Currently we have a list of top channels ranked by levels and amount of boosts being received. Trading mechanism is coming soon!
+
+![image](https://github.com/redisner/tg_boosts_miniapp/assets/128181486/67b0c4d2-adc9-437f-a06e-ecb1ecf9f532)
+
 
 ## Installation Requirements:
 - Python v3.10
