@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boosteam App</title>
+    <script src="https://tg.dev/js/telegram-web-app.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"/>
+</head>
+<body>
+<div class="container">
+    <div id="top-frame">
+        <span id="title">Boosteam Assets</span>
+        <div style="display: flex; align-items: center;">
+            <span id="balance">0</span>
+            <span id="currency-symbol">$</span>
+            <button id="top-up-button" class="disabled" data-tooltip="Not available yet!">+</button>
+        </div>
+    </div>
+
+    <div id="action-buttons">
+        <button class="disabled" data-tooltip="Coming soon!">
+            <img src="{{ url_for('static', filename='boosts.png') }}" alt="Get Boosts"> Get Boosts!
+        </button>
+        <button class="disabled" data-tooltip="Coming soon!">
+            <img src="{{ url_for('static', filename='earn.png') }}" alt="Earn"> Earn
+        </button>
+        <button>
+            <img src="{{ url_for('static', filename='ranking.png') }}" alt="Ranking"> Ranking
+        </button>
+    </div>
+
+
+    <!-- Ranked List -->
+    <div id="ranked-list">
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
