@@ -1,9 +1,8 @@
 from typing import List, Dict
 
-from sqlalchemy import create_engine, select, insert, func, Text, BigInteger, DateTime, ForeignKey, text
+from sqlalchemy import create_engine, select, insert, func, Text, BigInteger, DateTime, ForeignKey
 from sqlalchemy.orm import Session, DeclarativeBase, mapped_column, relationship
 from backend.config import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
-from backend.functions import props
 
 engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
                        pool_size=20, max_overflow=-1)
@@ -20,6 +19,9 @@ class Channel(Base):
     chat_id = mapped_column(BigInteger, unique=True, nullable=False)
     username = mapped_column(Text)
     listed_at = mapped_column(DateTime(timezone=True), default=func.clock_timestamp(), nullable=False)
+    name = mapped_column(Text)
+    access_hash = mapped_column(Text)
+    picture = mapped_column(Text)
 
 
 class Boost(Base):
@@ -46,14 +48,48 @@ async def add(model, params: List[Dict]):
     session.commit()
 
 
-async def custom_query(query):
+async def get_ranking(sorted_by, search, offset):
     session = Session(engine)
 
-    text_query = text(query)
+    latest_boosts_subquery = (
+        session.query(
+            Boost.channel_id,
+            Boost.boosts_count,
+            Boost.level,
+            func.row_number().over(
+                partition_by=Boost.channel_id,
+                order_by=Boost.check_time.desc()
+            ).label('rn')
+        )
+        .subquery()
+    )
 
-    result = session.execute(text_query)
+    if sorted_by == "boosts_count":
+        main_sort = latest_boosts_subquery.c.boosts_count.desc()
+        additional_sort = latest_boosts_subquery.c.level.asc()
+    else:
+        main_sort = latest_boosts_subquery.c.level.desc()
+        additional_sort = latest_boosts_subquery.c.boosts_count.desc()
 
-    return result.scalars()
+    pre_rank_subquery = (
+        session.query(
+            func.rank().over(
+                order_by=(main_sort & additional_sort)
+            ).label('overall_rank'),
+            Channel.username,
+            latest_boosts_subquery.c.boosts_count,
+            latest_boosts_subquery.c.level,
+            Channel.name,
+            Channel.picture
+        )
+        .join(latest_boosts_subquery, Channel.id == latest_boosts_subquery.c.channel_id)
+        .filter(latest_boosts_subquery.c.rn == 1)
+        .filter(Channel.username.like(f'%{search}%'))
+        .limit(10)
+        .offset(offset)
+    )
+
+    return pre_rank_subquery.all()
 
 
 async def get(model, param: str | None, value: int | str | None):

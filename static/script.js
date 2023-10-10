@@ -53,10 +53,10 @@ function loadPageItems() {
                 <div class="ranked-item">
                     <div class="rank-and-image">
                         <span class="rank-number">${item.place}</span>
-                        <img src="${item.pic}" alt="${item.username}">
+                        <img src="data:image/png;base64, ${item.picture}" alt="${item.username}">
                     </div>
                     <div class="rank-and-channel-info">
-                        <span class="channel-name">${item.username}</span>
+                        <span class="channel-name">${item.name}</span>
                         <span class="boost-info">${item.level} LVL | ${item.boosts} Boosts</span>
                     </div>
                     <a href="https://t.me/${item.username}?boost" target="_blank"><button class="gift-boost-btn">GIFT BOOST</button></a>
