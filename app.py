@@ -1,12 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, request, render_template
 
 from backend.bg_tasks import periodic_check
-from backend.sql_utils import add, Channel, get, Boost, custom_query
-from backend.functions import check_channel, props
+from backend.sql_utils import add, Channel, get, Boost, get_ranking
+from backend.functions import check_channel
 
 schedule = BackgroundScheduler(daemon=True)
-schedule.add_job(periodic_check, 'interval', hours=1)
+schedule.add_job(periodic_check, 'interval', hours=12)
 schedule.start()
 
 app = Flask(__name__)
@@ -44,7 +46,10 @@ async def check_boosts_endpoint():
         if result["status"] == "success":
             await add(Channel, [{
                 "chat_id": result["chat_id"],
-                "username": username
+                "username": username,
+                "name": result["name"],
+                "access_hash": result["access_hash"],
+                "picture": result["picture"]
             }])
 
             sql_channel = await get(Channel, "username", username)
@@ -92,35 +97,19 @@ async def get_ranking_endpoint():
     if not sorted_by:
         sorted_by = "boosts_count"
 
-    boosts = await custom_query("""WITH LatestBoosts AS (
-    SELECT channel_id,
-           boosts_count,
-           level,
-           ROW_NUMBER() OVER (PARTITION BY channel_id ORDER BY check_time DESC) AS rn
-    FROM boosts
-),
-PRE_RANK AS (SELECT RANK() OVER (ORDER BY b.{0} DESC) AS overall_rank, c.username, b.boosts_count, b.level
-FROM channels c
-JOIN LatestBoosts b
-ON c.id = b.channel_id
-WHERE b.rn = 1)
-SELECT (overall_rank, username, boosts_count, level)
-FROM PRE_RANK
-WHERE username LIKE '%{1}%'
-LIMIT 10 OFFSET {2}""".format(sorted_by, search, offset))
+    boosts = await get_ranking(sorted_by, search, offset)
 
     result = []
 
-    prepared = [str(x)[1:-1].split(",") for x in boosts]
-
-    for boost in prepared:
+    for boost in boosts:
         result += [
             {
-                "username": boost[1],
-                "place": boost[0],
-                "pic": "boosts.png",
-                "boosts": boost[2],
-                "level": boost[3]
+                "place": boost.overall_rank,
+                "username": boost.username,
+                "boosts": boost.boosts_count,
+                "level": boost.level,
+                "name": boost.name,
+                "picture": boost.picture
             }
         ]
 

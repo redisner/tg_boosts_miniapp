@@ -366,6 +366,16 @@ body {
     cursor: pointer;
 }
 
+.channel-name {
+    font-size: calc(0.3em + 1.3vw); /* Dynamically resizable text */
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(15em + 0.1vw);
+    color: #000;
+}
+
 #ranked-list-container {
     background-color: #EAEAFD;
     padding: 10px 0; /* Vertical padding to give some space above and below the ranked items */
@@ -396,16 +406,6 @@ body {
     margin-right: 15px;
     border-radius: 50%;
     object-fit: cover;
-}
-
-.channel-name {
-    font-size: calc(0.3em + 1.3vw); /* Dynamically resizable text */
-    flex-grow: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(11em + 0.1vw); /* Dynamically resizable max-width */
-    color: #000;
 }
 
 .boost-info {
@@ -505,4 +505,3 @@ body {
         font-size: calc(1em + 1vw);
     }
 }
-    
